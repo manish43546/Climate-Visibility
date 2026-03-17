@@ -1,34 +1,46 @@
-database-connect== 0.1.66
-matplotlib== 3.7.1
-seaborn== 0.12.2
-boto3==1.24.84
-botocore-stubs==1.27.86
-dill==0.3.5.1
-dnspython==2.2.1
-evidently==0.1.59.dev0
-fastapi==0.78.0
-from-root==1.0.2
-httptools==0.5.0
-imblearn==0.0
-mypy-boto3-s3==1.24.76
-pip-chill==1.0.1
-pymongo==4.2.0
-jinja2== 3.1.2
-python-dotenv==0.21.0
-PyYAML==5.4.1
-types-s3transfer==0.6.0.post4
-uvicorn==0.18.3
-watchfiles==0.17.0
-websockets==10.3
-wincertstore==0.2
-kneed== 0.8.2
-xgboost==0.90
-python-multipart==0.0.6
-neuro_mf==0.0.5
-numba==0.56.4
-numpy==1.23.5
-python-dotenv==0.21.0
+# Core ML and Data Processing
+numpy==1.24.3
 pandas==2.0.3
-flask==3.0.3
+scikit-learn==1.3.0
+xgboost==2.0.0
+joblib==1.3.1
+dill==0.3.7
 
+# Web Framework
+Flask==3.0.3
+FastAPI==0.104.1
+uvicorn==0.24.0
+httptools==0.6.1
+python-multipart==0.0.6
+watchfiles==0.20.0
+websockets==11.0.3
+
+# Database
+pymongo==4.6.0
+dnspython==2.4.2
+
+# AWS Integration
+boto3==1.28.85
+botocore==1.31.85
+mypy-boto3-s3==1.28.85
+types-s3transfer==0.6.2
+
+# Data Visualization
+matplotlib==3.7.3
+seaborn==0.12.2
+
+# ML Utilities
+kneed==0.8.2
+numba==0.57.1
+evidently==0.4.7
+
+# Environment & Configuration
+python-dotenv==1.0.0
+PyYAML==6.0.1
+from-root==1.0.2
+
+# Development & Utilities
+pip-chill==1.0.3
+
+# Package installation
 -e .
