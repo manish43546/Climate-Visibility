@@ -1,0 +1,41 @@
+# Flask Configuration
+flask:
+  host: "0.0.0.0"
+  port: 5000
+  debug: false
+  threaded: true
+
+# MongoDB Configuration
+mongodb:
+  connection_timeout: 5000
+  server_selection_timeout: 5000
+  retryWrites: true
+
+# AWS Configuration
+aws:
+  s3_bucket: "climate-visibility-models"
+  region: "us-east-1"
+  retry_attempts: 3
+
+# Model Configuration
+model:
+  type: "xgboost"
+  version: "1.0.0"
+  framework: "scikit-learn"
+  hyperparameters:
+    n_estimators: 100
+    max_depth: 6
+    learning_rate: 0.1
+    subsample: 0.8
+
+# Data Configuration
+data:
+  train_test_split: 0.8
+  random_state: 42
+  scaling_method: "StandardScaler"
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/application.log"
