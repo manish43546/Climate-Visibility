@@ -1,0 +1,66 @@
+version: '3.9'
+
+services:
+  # MongoDB Service
+  mongodb:
+    image: mongo:7.0-alpine
+    container_name: climate-visibility-mongodb
+    environment:
+      MONGO_INITDB_DATABASE: climate_visibility
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - climate-network
+
+  # Flask Application Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+        AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+        AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-us-east-1}
+        MONGO_DB_URL: ${MONGO_DB_URL:-mongodb://mongodb:27017/climate_visibility}
+    container_name: climate-visibility-app
+    environment:
+      MONGO_DB_URL: ${MONGO_DB_URL:-mongodb://mongodb:27017/climate_visibility}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-us-east-1}
+      FLASK_PORT: 5000
+      FLASK_DEBUG: 'False'
+      PYTHONUNBUFFERED: '1'
+    ports:
+      - "5000:5000"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    volumes:
+      - ./uploaded_data:/app/uploaded_data
+      - ./artifacts:/app/artifacts
+      - ./Results:/app/Results
+    networks:
+      - climate-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  climate-network:
+    driver: bridge
